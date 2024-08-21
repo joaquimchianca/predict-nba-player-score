@@ -1,6 +1,6 @@
 import argparse
 import sys
-from model import random_forest, setup
+from model import setup, trainer
 from sklearn.metrics import accuracy_score
 import os
 
@@ -36,9 +36,10 @@ def main():
 
     X_train, y_train, X_test, y_test, pts_last_game = setup.prepare_data(data, args.name, args.points)
 
-    rf_model = random_forest.train_random_forest(X_train, y_train)
+    # chamada para treinamento do algoritmo
+    gbm = trainer.train_gbm(X_train, y_train)
 
-    y_pred = rf_model.predict(X_test)[0]
+    y_pred = gbm.predict(X_test)[0]
 
     result = "acima" if y_pred else "abaixo"
     print(f"\n{args.name} vai marcar {result} de {args.points} pontos na próxima partida.")
